@@ -1,0 +1,7 @@
+2024-05-26 21:57:16 org.example.utils.repository.BankAccRepository - INSERT INTO address (street,house_number,flat_number,zip_code,city,address_type) VALUES ('Lesna','33a','5','22-333','Bielsko Biała','MAIN')
+2024-05-26 21:57:16 org.example.utils.repository.BankAccRepository - SELECT * FROM address WHERE id = 220
+2024-05-26 21:57:16 org.example.utils.repository.BankAccRepository - INSERT INTO address (street,house_number,flat_number,zip_code,city,address_type) VALUES ('Lesna','33a','5','22-333','Bielsko Biała','MAIN')
+2024-05-26 21:57:16 org.example.utils.repository.BankAccRepository - SELECT * FROM address WHERE id = 221
+2024-05-26 21:57:16 org.example.utils.repository.BankAccRepository - INSERT INTO client (first_name,middle_name,pesel,birth_date,sex,document_type,document_number,name,main_address_id,correspondence_address_id,email,client_type) VALUES ('Tom','John','37022382539','1999-03-03','FEMALE','ID_CARD','ZZC108201','Smith','220','221','eml@emi.pl','INDIVIDUAL')
+2024-05-26 21:57:16 org.example.utils.repository.BankAccRepository - Zapisano w bazie danych
+2024-05-26 21:57:16 org.example.utils.repository.BankAccRepository - SELECT * FROM client WHERE id = 99
