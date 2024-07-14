@@ -1,0 +1,28 @@
+2024-07-14 17:00:39 org.example.utils.repository.BankAccRepository - INSERT INTO address (street,house_number,flat_number,zip_code,city,address_type) VALUES ('Lesna','33a','5','22-333','Bielsko Biała','MAIN')
+2024-07-14 17:00:39 org.example.utils.repository.BankAccRepository - SELECT * FROM address WHERE id = 280
+2024-07-14 17:00:39 org.example.utils.repository.BankAccRepository - INSERT INTO address (street,house_number,flat_number,zip_code,city,address_type) VALUES ('Lesna','33a','5','22-333','Bielsko Biała','MAIN')
+2024-07-14 17:00:39 org.example.utils.repository.BankAccRepository - SELECT * FROM address WHERE id = 281
+2024-07-14 17:00:39 org.example.utils.repository.BankAccRepository - INSERT INTO client (first_name,middle_name,pesel,birth_date,sex,document_type,document_number,name,main_address_id,correspondence_address_id,email,client_type) VALUES ('Tom','John','37022382539','1999-03-03','FEMALE','ID_CARD','ZZC108201','Smith','280','281','eml@emi.pl','INDIVIDUAL')
+2024-07-14 17:00:39 org.example.utils.repository.BankAccRepository - Zapisano w bazie danych
+2024-07-14 17:00:39 org.example.utils.repository.BankAccRepository - SELECT * FROM client WHERE id = 134
+2024-07-14 17:01:06 org.example.utils.repository.BankAccRepository - INSERT INTO address (street,house_number,flat_number,zip_code,city,address_type) VALUES ('Lesna','33a','5','22-333','Bielsko Biała','MAIN')
+2024-07-14 17:01:06 org.example.utils.repository.BankAccRepository - SELECT * FROM address WHERE id = 282
+2024-07-14 17:01:06 org.example.utils.repository.BankAccRepository - INSERT INTO address (street,house_number,flat_number,zip_code,city,address_type) VALUES ('Lesna','33a','5','22-333','Bielsko Biała','MAIN')
+2024-07-14 17:01:06 org.example.utils.repository.BankAccRepository - SELECT * FROM address WHERE id = 283
+2024-07-14 17:01:06 org.example.utils.repository.BankAccRepository - INSERT INTO client (first_name,middle_name,pesel,birth_date,sex,document_type,document_number,name,main_address_id,correspondence_address_id,email,client_type) VALUES ('Tom','John','37022382539','1999-03-03','FEMALE','ID_CARD','ZZC108201','Smith','282','283','eml@emi.pl','INDIVIDUAL')
+2024-07-14 17:01:06 org.example.utils.repository.BankAccRepository - exception message: Błąd zapisu do bazy danych: Duplicate entry 'eml@emi.pl' for key 'client.email': 
+org.example.utils.exceptions.RepositoryException: Błąd zapisu do bazy danych: Duplicate entry 'eml@emi.pl' for key 'client.email'
+	at org.example.utils.repository.BankAccRepository.logAndThrowException(BankAccRepository.java:317)
+	at org.example.utils.repository.BankAccRepository.save(BankAccRepository.java:290)
+	at org.example.utils.repository.BankAccRepository.saveAndFlush(BankAccRepository.java:312)
+	at org.example.client.service.impl.ClientServiceImpl.add(ClientServiceImpl.java:47)
+	at org.example.main.MainTest.main(MainTest.java:106)
+Caused by: java.sql.SQLIntegrityConstraintViolationException: Duplicate entry 'eml@emi.pl' for key 'client.email'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:117)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.StatementImpl.executeUpdateInternal(StatementImpl.java:1334)
+	at com.mysql.cj.jdbc.StatementImpl.executeLargeUpdate(StatementImpl.java:2089)
+	at com.mysql.cj.jdbc.StatementImpl.executeUpdate(StatementImpl.java:1339)
+	at org.example.utils.repository.BankAccRepository.save(BankAccRepository.java:263)
+	... 3 more
+2024-07-14 17:01:06 org.example.utils.repository.BankAccRepository - Wycofano zmiany z bazy danych

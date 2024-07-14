@@ -35,66 +35,53 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Optional<Client> add(Client client) {
-        try {
-            constraints = validatorService.validateWithInnerFields(client);
-            if (!constraints.isEmpty()) {
-                logger.log("Błędne dane podczas dodawania klienta: ", constraints);
-                return Optional.empty();
-            }
-            ClientType clientType = client.getClientType();
-            if (clientType.isIndividual()) {
-                IndividualClientModel individualClientModel = individualClientMapper.domainToClientModel(client);
-                IndividualClientModel addedClientModel = individualClientRepository.saveAndFlush(individualClientModel);
-                Client addedClient = individualClientMapper.clientModelToDomain(addedClientModel);
-                return Optional.of(addedClient);
-            } else {
-                BusinessClientModel businessClientModel = businessClientMapper.domainToClientModel(client);
-                BusinessClientModel addedClientModel = businessClientRepository.saveAndFlush(businessClientModel);
-                Client addedClient = businessClientMapper.clientModelToDomain(addedClientModel);
-                return Optional.of(addedClient);
-            }
-        } catch (RepositoryException | ValidationException exception) {
+        constraints = validatorService.validateWithInnerFields(client);
+        if (!constraints.isEmpty()) {
+            ValidationException exception = new ValidationException("Błędne dane podczas dodawania klienta: ", constraints);
             logger.logAnException(exception, exception.getMessage(), constraints);
             throw exception;
+        }
+        ClientType clientType = client.getClientType();
+        if (clientType.isIndividual()) {
+            IndividualClientModel individualClientModel = individualClientMapper.domainToClientModel(client);
+            IndividualClientModel addedClientModel = individualClientRepository.saveAndFlush(individualClientModel);
+            Client addedClient = individualClientMapper.clientModelToDomain(addedClientModel);
+            return Optional.of(addedClient);
+        } else {
+            BusinessClientModel businessClientModel = businessClientMapper.domainToClientModel(client);
+            BusinessClientModel addedClientModel = businessClientRepository.saveAndFlush(businessClientModel);
+            Client addedClient = businessClientMapper.clientModelToDomain(addedClientModel);
+            return Optional.of(addedClient);
         }
     }
 
     @Override
     public Optional<Client> update(Client client) {
-        try {
-            Integer id = client.getId();
-            if (individualClientRepository.findById(id).isEmpty()) {
-                return Optional.empty();
-            }
-            constraints = validatorService.validateWithInnerFields(client);
-            if (!constraints.isEmpty()) {
-                logger.log("Błędne dane podczas aktualizowania klienta: ", constraints);
-                return Optional.empty();
-            }
-            if (client.getClientType().isIndividual()) {
-                IndividualClientModel individualClientModel = individualClientMapper.domainToClientModel(client);
-                IndividualClientModel updatedClientModel = individualClientRepository.saveAndFlush(individualClientModel);
-                Client updatedClient = individualClientMapper.clientModelToDomain(updatedClientModel);
-                return Optional.of(updatedClient);
-            } else {
-                BusinessClientModel businessClientModel = businessClientMapper.domainToClientModel(client);
-                BusinessClientModel updatedClientModel = businessClientRepository.saveAndFlush(businessClientModel);
-                Client updatedClient = businessClientMapper.clientModelToDomain(updatedClientModel);
-                return Optional.of(updatedClient);
-            }
-        } catch (RepositoryException | ValidationException exception) {
+        Integer id = client.getId();
+        if (individualClientRepository.findById(id).isEmpty()) {
+            return Optional.empty();
+        }
+        constraints = validatorService.validateWithInnerFields(client);
+        if (!constraints.isEmpty()) {
+            ValidationException exception = new ValidationException("Błędne dane podczas aktualizowania klienta: ", constraints);
             logger.logAnException(exception, exception.getMessage(), constraints);
             throw exception;
+        }
+        if (client.getClientType().isIndividual()) {
+            IndividualClientModel individualClientModel = individualClientMapper.domainToClientModel(client);
+            IndividualClientModel updatedClientModel = individualClientRepository.saveAndFlush(individualClientModel);
+            Client updatedClient = individualClientMapper.clientModelToDomain(updatedClientModel);
+            return Optional.of(updatedClient);
+        } else {
+            BusinessClientModel businessClientModel = businessClientMapper.domainToClientModel(client);
+            BusinessClientModel updatedClientModel = businessClientRepository.saveAndFlush(businessClientModel);
+            Client updatedClient = businessClientMapper.clientModelToDomain(updatedClientModel);
+            return Optional.of(updatedClient);
         }
     }
 
     @Override
     public void deleteById(Integer id) {
-        try {
-            individualClientRepository.deleteById(id);
-        } catch (RepositoryException exception) {
-            logger.logAnException(exception, exception.getMessage());
-            throw exception;
-        }
+        individualClientRepository.deleteById(id);
     }
 }

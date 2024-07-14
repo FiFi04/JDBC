@@ -10,7 +10,7 @@ import org.example.bank.service.api.Card;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-05-26T21:51:33+0200",
+    date = "2024-06-17T19:46:30+0200",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17 (Oracle Corporation)"
 )
 public class CardMapperImpl implements CardMapper {

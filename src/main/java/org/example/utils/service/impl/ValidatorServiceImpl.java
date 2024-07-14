@@ -48,8 +48,9 @@ public class ValidatorServiceImpl implements ValidatorService {
 
                     } catch (IllegalAccessException | ClassNotFoundException | InvocationTargetException |
                              InstantiationException | NoSuchMethodException e) {
-                        logger.logAnException(e, "Błąd podczas walidacji");
-                        throw new ValidationException("Błąd podczas walidacji: " + e.getMessage(), e);
+                        ValidationException exception = new ValidationException("Błąd podczas walidacji: " + e.getMessage(), e);
+                        logger.logAnException(exception, exception.getMessage());
+                        throw exception;
                     }
                 });
         return constraints;
@@ -65,8 +66,9 @@ public class ValidatorServiceImpl implements ValidatorService {
                 try {
                     constraints.putAll(validateWithInnerFields(field.get(object)));
                 } catch (IllegalAccessException e) {
-                    logger.logAnException(e, "Błąd podczas walidacji");
-                    throw new ValidationException("Błąd podczas walidacji: " + e.getMessage(), e);
+                    ValidationException exception = new ValidationException("Błąd podczas walidacji: " + e.getMessage(), e);
+                    logger.logAnException(exception, exception.getMessage());
+                    throw exception;
                 }
             }
         }

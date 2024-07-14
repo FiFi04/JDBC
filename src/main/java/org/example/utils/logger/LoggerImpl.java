@@ -49,7 +49,7 @@ public class LoggerImpl implements Logger {
     private void logMessage(StringBuilder logMessage) {
         try {
             if (logType.equals(LogType.CONSOLE) || DBConnector.getInstance().getConnection().isClosed()) {
-                System.out.println(logMessage);
+                System.out.print(logMessage);
             } else if (logType.equals(LogType.FILE)) {
                 saveLogToFile(logMessage);
             }

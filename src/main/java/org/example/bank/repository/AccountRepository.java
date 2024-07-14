@@ -1,7 +1,6 @@
 package org.example.bank.repository;
 
 import org.example.bank.repository.model.AccountModel;
-import org.example.utils.exceptions.RepositoryException;
 import org.example.utils.repository.BankAccRepository;
 
 import java.sql.Connection;
@@ -27,8 +26,9 @@ public class AccountRepository extends BankAccRepository<AccountModel, Integer> 
             statement.executeUpdate(completeQuery);
             return true;
         } catch (SQLException e) {
-            throw new RepositoryException("Błąd podczas dodawania współzałożyciela konta: " + e.getMessage(), e);
+            logAndThrowException("Błąd podczas dodawania współzałożyciela konta: " + e.getMessage(), e);
         }
+        return false;
     }
 
     public void deleteAssignedOwner(Integer accountId) {
@@ -52,7 +52,7 @@ public class AccountRepository extends BankAccRepository<AccountModel, Integer> 
             logger.log(completeDeleteQuery);
             statement.executeUpdate(completeDeleteQuery);
         } catch (SQLException e) {
-            throw new RepositoryException("Błąd usuwania powiązanych właścicieli kont: " + e.getMessage(), e);
+            logAndThrowException("Błąd usuwania powiązanych właścicieli kont: " + e.getMessage(), e);
         }
     }
 }

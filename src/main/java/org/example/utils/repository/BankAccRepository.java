@@ -46,20 +46,19 @@ public abstract class BankAccRepository<T extends BankAcc<E>, E> implements Repo
                 bankAccObjects.add(bankAccObject);
             }
         } catch (NoSuchMethodException e) {
-            throw new RepositoryException("Brak metody o podanej sygnaturze: " + e.getMessage(), e);
+            logAndThrowException("Brak metody o podanej sygnaturze: ", e);
         } catch (InvocationTargetException e) {
-            throw new RepositoryException("Wystąpił wyjątek podczas wykonywania metody: " + e.getMessage(), e);
+            logAndThrowException("Wystąpił wyjątek podczas wykonywania metody: ", e);
         } catch (InstantiationException e) {
-            throw new RepositoryException("Nie można utworzyć obiektu: " + e.getMessage(), e);
+            logAndThrowException("Nie można utworzyć obiektu: ", e);
         } catch (IllegalAccessException e) {
-            throw new RepositoryException("Brak dostepu do metody: " + e.getMessage(), e);
+            logAndThrowException("Brak dostepu do metody: ", e);
         } catch (ClassNotFoundException e) {
-            throw new RepositoryException("Brak klasy o podanej nazwie: " + e.getMessage(), e);
+            logAndThrowException("Brak klasy o podanej nazwie: ", e);
         } catch (SQLException e) {
-            throw new RepositoryException("Błąd odczytu z bazy danych: " + e.getMessage(), e);
+            logAndThrowException("Błąd odczytu z bazy danych: ", e);
         } catch (Throwable e) {
-            logger.logAnException(e, e.getMessage());
-            throw new RepositoryException("Wystąpił niespodziewany błąd: " + e.getMessage(), e);
+            logAndThrowException("Wystąpił niespodziewany błąd: ", e);
         }
         return bankAccObjects;
     }
@@ -82,21 +81,21 @@ public abstract class BankAccRepository<T extends BankAcc<E>, E> implements Repo
             T bankAccObject = getObjectFromDB(tClass, objectFields, columnsNames, resultSet, false);
             return Optional.of(bankAccObject);
         } catch (NoSuchMethodException e) {
-            throw new RepositoryException("Brak metody o podanej sygnaturze: " + e.getMessage(), e);
+            logAndThrowException("Brak metody o podanej sygnaturze: ", e);
         } catch (InvocationTargetException e) {
-            throw new RepositoryException("Wystąpił wyjątek podczas wykonywania metody: " + e.getMessage(), e);
+            logAndThrowException("Wystąpił wyjątek podczas wykonywania metody: ", e);
         } catch (InstantiationException e) {
-            throw new RepositoryException("Nie można utworzyć obiektu: " + e.getMessage(), e);
+            logAndThrowException("Nie można utworzyć obiektu: ", e);
         } catch (IllegalAccessException e) {
-            throw new RepositoryException("Brak dostepu do metody: " + e.getMessage(), e);
+            logAndThrowException("Brak dostepu do metody: ", e);
         } catch (ClassNotFoundException e) {
-            throw new RepositoryException("Brak klasy o podanej nazwie: " + e.getMessage(), e);
+            logAndThrowException("Brak klasy o podanej nazwie: ", e);
         } catch (SQLException e) {
-            throw new RepositoryException("Błąd odczytu z bazy danych: " + e.getMessage(), e);
+            logAndThrowException("Błąd odczytu z bazy danych: ", e);
         } catch (Throwable e) {
-            logger.logAnException(e, e.getMessage());
-            throw new RepositoryException("Wystąpił niespodziewany błąd: " + e.getMessage(), e);
+            logAndThrowException("Wystąpił niespodziewany błąd: ", e);
         }
+        return Optional.empty();
     }
 
     @Override
@@ -119,21 +118,21 @@ public abstract class BankAccRepository<T extends BankAcc<E>, E> implements Repo
             T bankAccObject = getObjectFromDB(tClass, objectFields, columnsNames, resultSet, true);
             return Optional.of(bankAccObject);
         } catch (NoSuchMethodException e) {
-            throw new RepositoryException("Brak metody o podanej sygnaturze: " + e.getMessage(), e);
+            logAndThrowException("Brak metody o podanej sygnaturze: ", e);
         } catch (InvocationTargetException e) {
-            throw new RepositoryException("Wystąpił wyjątek podczas wykonywania metody: " + e.getMessage(), e);
+            logAndThrowException("Wystąpił wyjątek podczas wykonywania metody: ", e);
         } catch (InstantiationException e) {
-            throw new RepositoryException("Nie można utworzyć obiektu: " + e.getMessage(), e);
+            logAndThrowException("Nie można utworzyć obiektu: ", e);
         } catch (IllegalAccessException e) {
-            throw new RepositoryException("Brak dostepu do metody: " + e.getMessage(), e);
+            logAndThrowException("Brak dostepu do metody: ", e);
         } catch (ClassNotFoundException e) {
-            throw new RepositoryException("Brak klasy o podanej nazwie: " + e.getMessage(), e);
+            logAndThrowException("Brak klasy o podanej nazwie: ", e);
         } catch (SQLException e) {
-            throw new RepositoryException("Błąd odczytu z bazy danych: " + e.getMessage(), e);
+            logAndThrowException("Błąd odczytu z bazy danych: ", e);
         } catch (Throwable e) {
-            logger.logAnException(e, e.getMessage());
-            throw new RepositoryException("Wystąpił niespodziewany błąd: " + e.getMessage(), e);
+            logAndThrowException("Wystąpił niespodziewany błąd: ", e);
         }
+        return Optional.empty();
     }
 
     @Override
@@ -153,18 +152,17 @@ public abstract class BankAccRepository<T extends BankAcc<E>, E> implements Repo
             connection.commit();
             connection.setAutoCommit(true);
         } catch (InvocationTargetException e) {
-            throw new RepositoryException("Wystąpił wyjątek podczas wykonywania metody: " + e.getMessage(), e);
+            logAndThrowException("Wystąpił wyjątek podczas wykonywania metody: ", e);
         } catch (NoSuchMethodException e) {
-            throw new RepositoryException("Brak metody o podanej sygnaturze: " + e.getMessage(), e);
+            logAndThrowException("Brak metody o podanej sygnaturze: ", e);
         } catch (InstantiationException e) {
-            throw new RepositoryException("Nie można utworzyć obiektu: " + e.getMessage(), e);
+            logAndThrowException("Nie można utworzyć obiektu: ", e);
         } catch (IllegalAccessException e) {
-            throw new RepositoryException("Brak dostepu do metody: " + e.getMessage(), e);
+            logAndThrowException("Brak dostepu do metody: ", e);
         } catch (SQLException e) {
-            throw new RepositoryException("Błąd podczas usuwania obiektu z bazy danych: " + e.getMessage(), e);
+            logAndThrowException("Błąd podczas usuwania obiektu z bazy danych: ", e);
         } catch (Throwable e) {
-            logger.logAnException(e, e.getMessage());
-            throw new RepositoryException("Wystąpił niespodziewany błąd: " + e.getMessage(), e);
+            logAndThrowException("Wystąpił niespodziewany błąd: ", e);
         } finally {
             try {
                 if (!connection.getAutoCommit()) {
@@ -172,7 +170,7 @@ public abstract class BankAccRepository<T extends BankAcc<E>, E> implements Repo
                     logger.log("Wycofano zmiany z bazy danych");
                 }
             } catch (SQLException e) {
-                throw new RepositoryException("Błąd podczas wycowywania zmian z bazy danych");
+                logAndThrowException("Błąd podczas wycowywania zmian z bazy danych", e);
             }
         }
     }
@@ -191,18 +189,17 @@ public abstract class BankAccRepository<T extends BankAcc<E>, E> implements Repo
             connection.commit();
             connection.setAutoCommit(true);
         } catch (InvocationTargetException e) {
-            throw new RepositoryException("Wystąpił wyjątek podczas wykonywania metody: " + e.getMessage(), e);
+            logAndThrowException("Wystąpił wyjątek podczas wykonywania metody: ", e);
         } catch (NoSuchMethodException e) {
-            throw new RepositoryException("Brak metody o podanej sygnaturze: " + e.getMessage(), e);
+            logAndThrowException("Brak metody o podanej sygnaturze: ", e);
         } catch (InstantiationException e) {
-            throw new RepositoryException("Nie można utworzyć obiektu: " + e.getMessage(), e);
+            logAndThrowException("Nie można utworzyć obiektu: ", e);
         } catch (IllegalAccessException e) {
-            throw new RepositoryException("Brak dostepu do metody: " + e.getMessage(), e);
+            logAndThrowException("Brak dostepu do metody: ", e);
         } catch (SQLException e) {
-            throw new RepositoryException("Błąd podczas usuwania obiektu z bazy danych: " + e.getMessage(), e);
+            logAndThrowException("Błąd podczas usuwania obiektu z bazy danych: ", e);
         } catch (Throwable e) {
-            logger.logAnException(e, e.getMessage());
-            throw new RepositoryException("Wystąpił niespodziewany błąd: " + e.getMessage(), e);
+            logAndThrowException("Wystąpił niespodziewany błąd: ", e);
         } finally {
             try {
                 if (!connection.getAutoCommit()) {
@@ -210,7 +207,7 @@ public abstract class BankAccRepository<T extends BankAcc<E>, E> implements Repo
                     logger.log("Wycofano zmiany z bazy danych");
                 }
             } catch (SQLException e) {
-                throw new RepositoryException("Błąd podczas wycowywania zmian z bazy danych");
+                logAndThrowException("Błąd podczas wycowywania zmian z bazy danych", e);
             }
         }
     }
@@ -275,26 +272,25 @@ public abstract class BankAccRepository<T extends BankAcc<E>, E> implements Repo
             }
         } catch (NoSuchMethodException e) {
             rollback = true;
-            throw new RepositoryException("Brak metody o podanej sygnaturze: " + e.getMessage(), e);
+            logAndThrowException("Brak metody o podanej sygnaturze: ", e);
         } catch (InvocationTargetException e) {
             rollback = true;
-            throw new RepositoryException("Wystąpił wyjątek podczas wykonywania metody: " + e.getMessage(), e);
+            logAndThrowException("Wystąpił wyjątek podczas wykonywania metody: ", e);
         } catch (InstantiationException e) {
             rollback = true;
-            throw new RepositoryException("Nie można utworzyć obiektu: " + e.getMessage(), e);
+            logAndThrowException("Nie można utworzyć obiektu: ", e);
         } catch (IllegalAccessException e) {
             rollback = true;
-            throw new RepositoryException("Brak dostepu do metody: " + e.getMessage(), e);
+            logAndThrowException("Brak dostepu do metody: ", e);
         } catch (ClassNotFoundException e) {
             rollback = true;
-            throw new RepositoryException("Brak klasy o podanej nazwie: " + e.getMessage(), e);
+            logAndThrowException("Brak klasy o podanej nazwie: ", e);
         } catch (SQLException e) {
             rollback = true;
-            throw new RepositoryException("Błąd zapisu do bazy danych: " + e.getMessage(), e);
+            logAndThrowException("Błąd zapisu do bazy danych: ", e);
         } catch (Throwable e) {
             rollback = true;
-            logger.logAnException(e, e.getMessage());
-            throw new RepositoryException("Wystąpił niespodziewany błąd: " + e.getMessage(), e);
+            logAndThrowException("Wystąpił niespodziewany błąd: ", e);
         } finally {
             try {
                 if (rollback && depthLevel == 0) {
@@ -305,7 +301,7 @@ public abstract class BankAccRepository<T extends BankAcc<E>, E> implements Repo
                     logger.log("Wycofano zmiany z bazy danych");
                 }
             } catch (SQLException e) {
-                throw new RepositoryException("Błąd podczas wycowywania zmian z bazy danych:" + e.getMessage(), e);
+                logAndThrowException("Błąd podczas wycowywania zmian z bazy danych:", e);
             }
             depthLevel--;
         }
@@ -315,6 +311,12 @@ public abstract class BankAccRepository<T extends BankAcc<E>, E> implements Repo
     public T saveAndFlush(T object) {
         save(object);
         return findById(lastSavedObjectId).get();
+    }
+
+    protected void logAndThrowException(String message, Throwable exception) {
+        RepositoryException repositoryException = new RepositoryException(message + exception.getMessage(), exception);
+        logger.logAnException(repositoryException, repositoryException.getMessage());
+        throw repositoryException;
     }
 
     private String getInsertValue(Field objectField, T object) throws IllegalAccessException, ClassNotFoundException,

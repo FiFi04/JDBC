@@ -4,7 +4,6 @@ import org.example.bank.repository.CardRepository;
 import org.example.bank.repository.model.CardModel;
 import org.example.bank.service.api.Card;
 import org.example.bank.service.api.CardService;
-import org.example.utils.exceptions.RepositoryException;
 import org.example.utils.exceptions.ValidationException;
 import org.example.utils.logger.Logger;
 import org.example.utils.logger.LoggerImpl;
@@ -29,15 +28,12 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public void add(Card card) {
-        try {
-            constraints = validatorService.validateWithInnerFields(card);
-            if (constraints.isEmpty()) {
-                CardModel cardModel = cardMapper.domainToCardModel(card);
-                cardRepository.save(cardModel);
-            } else {
-                throw new ValidationException("Błędne dane podczas dodawania karty: ", constraints);
-            }
-        } catch (RepositoryException | ValidationException exception) {
+        constraints = validatorService.validateWithInnerFields(card);
+        if (constraints.isEmpty()) {
+            CardModel cardModel = cardMapper.domainToCardModel(card);
+            cardRepository.save(cardModel);
+        } else {
+            ValidationException exception = new ValidationException("Błędne dane podczas dodawania karty: ", constraints);
             logger.logAnException(exception, exception.getMessage(), constraints);
             throw exception;
         }
@@ -45,27 +41,17 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public void close(Integer cardId) {
-        try {
-            cardRepository.deleteById(cardId);
-        } catch (RepositoryException exception) {
-            logger.logAnException(exception, exception.getMessage());
-            throw exception;
-        }
+        cardRepository.deleteById(cardId);
     }
 
     @Override
     public void extendValidity(Integer cardId, LocalDate newDate) {
-        try {
-            Optional<CardModel> card = cardRepository.findFetchById(cardId);
-            if (card.isPresent()) {
-                card.get().setExpireDate(newDate);
-                cardRepository.save(card.get());
-            } else {
-                logger.log("Brak karty o podanym numerze ID: {}", cardId);
-            }
-        } catch (RepositoryException exception) {
-            logger.logAnException(exception, exception.getMessage());
-            throw exception;
+        Optional<CardModel> card = cardRepository.findFetchById(cardId);
+        if (card.isPresent()) {
+            card.get().setExpireDate(newDate);
+            cardRepository.save(card.get());
+        } else {
+            logger.log("Brak karty o podanym numerze ID: {}", cardId);
         }
     }
 }

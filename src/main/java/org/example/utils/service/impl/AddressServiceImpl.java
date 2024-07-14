@@ -1,6 +1,5 @@
 package org.example.utils.service.impl;
 
-import org.example.utils.exceptions.RepositoryException;
 import org.example.utils.exceptions.ValidationException;
 import org.example.utils.logger.Logger;
 import org.example.utils.logger.LoggerImpl;
@@ -27,15 +26,12 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public void save(Address address) {
-        try {
-            constraints = validatorService.validateFields(address);
-            if (constraints.isEmpty()) {
-                AddressModel addressModel = addressMapper.domainToAddressModel(address);
-                addressRepository.save(addressModel);
-            } else {
-                logger.log("Błędne dane podczas dodawania adresu: ", constraints);
-            }
-        } catch (RepositoryException | ValidationException exception) {
+        constraints = validatorService.validateFields(address);
+        if (constraints.isEmpty()) {
+            AddressModel addressModel = addressMapper.domainToAddressModel(address);
+            addressRepository.save(addressModel);
+        } else {
+            ValidationException exception = new ValidationException("Błędne dane podczas dodawania adresu: ", constraints);
             logger.logAnException(exception, exception.getMessage(), constraints);
             throw exception;
         }
@@ -43,17 +39,13 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Optional<Address> update(Address address) {
-        try {
-            constraints = validatorService.validateFields(address);
-            if (constraints.isEmpty()) {
-                AddressModel addressModel = addressMapper.domainToAddressModel(address);
-                AddressModel updatedAddressModel = addressRepository.saveAndFlush(addressModel);
-                return Optional.of(addressMapper.addressModelToDomain(updatedAddressModel));
-            } else {
-                logger.log("Błędne dane podczas aktualizowania adresu: ", constraints);
-                return Optional.empty();
-            }
-        } catch (RepositoryException | ValidationException exception) {
+        constraints = validatorService.validateFields(address);
+        if (constraints.isEmpty()) {
+            AddressModel addressModel = addressMapper.domainToAddressModel(address);
+            AddressModel updatedAddressModel = addressRepository.saveAndFlush(addressModel);
+            return Optional.of(addressMapper.addressModelToDomain(updatedAddressModel));
+        } else {
+            ValidationException exception = new ValidationException("Błędne dane podczas aktualizowania adresu: ", constraints);
             logger.logAnException(exception, exception.getMessage(), constraints);
             throw exception;
         }
@@ -61,12 +53,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public void delete(Address address) {
-        try {
-            AddressModel addressModel = addressMapper.domainToAddressModel(address);
-            addressRepository.deleteById(addressModel.getId());
-        } catch (RepositoryException exception) {
-            logger.logAnException(exception, exception.getMessage());
-            throw exception;
-        }
+        AddressModel addressModel = addressMapper.domainToAddressModel(address);
+        addressRepository.deleteById(addressModel.getId());
     }
 }
